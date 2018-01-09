@@ -101,3 +101,27 @@ describe('GET /todos/:id', () => {
     })
 })
 
+describe('DELETE /todos/:id', () => {
+    it('should return todo', (done) => {        
+        request(app)
+        .delete(`/todos/${todos[0]._id.toHexString()}`)
+        .expect(200)
+        .end(done);
+    });
+
+    it('should return 404 if not found', (done) => {
+        const id = new ObjectID().toHexString(); 
+        request(app)
+        .delete(`/todos/${id}`)
+        .expect(404)        
+        .end(done);
+    })
+
+    it('should return 404 for non-object ids', (done) => {
+        request(app)
+        .delete(`/todos/abc123`)
+        .expect(404)
+        .end(done);
+    })
+})
+
